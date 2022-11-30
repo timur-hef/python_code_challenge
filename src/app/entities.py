@@ -12,3 +12,4 @@ class TodoEntry(AbstractEntity):
     summary: str
     detail: Optional[str]
     created_at: datetime
+    tag: Optional[str]

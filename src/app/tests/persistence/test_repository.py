@@ -8,7 +8,7 @@ from persistence.mapper.memory import MemoryTodoEntryMapper
 from persistence.repository import TodoEntryRepository
 
 _memory_storage = {
-    1: TodoEntry(id=1, summary="Lorem Ipsum", created_at=datetime.now(tz=timezone.utc))
+    1: TodoEntry(id=1, summary="Lorem Ipsum", created_at=datetime.now(tz=timezone.utc), tag="test")
 }
 
 

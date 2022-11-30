@@ -15,7 +15,7 @@ from persistence.repository import TodoEntryRepository
 from usecases import get_todo_entry, create_todo_entry, UseCaseError, NotFoundError
 
 _MAPPER_IN_MEMORY_STORAGE = {
-    1: TodoEntry(id=1, summary="Lorem Ipsum", created_at=datetime.now(tz=timezone.utc))
+    1: TodoEntry(id=1, summary="Lorem Ipsum", created_at=datetime.now(tz=timezone.utc), tag="new")
 }
 
 
