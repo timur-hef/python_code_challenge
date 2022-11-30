@@ -1,0 +1,7 @@
+starlette
+uvicorn
+pydantic
+jsonschema
+pyyaml
+pytest
+Pytest-asyncio
