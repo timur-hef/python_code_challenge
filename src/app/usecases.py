@@ -1,5 +1,6 @@
 from entities import TodoEntry
 from persistence.errors import CreateError, EntityNotFoundError
+from persistence.mapper.errors import DatabaseError
 from persistence.repository import TodoEntryRepository
 
 
@@ -23,5 +24,5 @@ async def create_todo_entry(
 ) -> TodoEntry:
     try:
         return await repository.create(entity=entity)
-    except CreateError as error:
+    except (DatabaseError, CreateError) as error:
         raise UseCaseError(error)

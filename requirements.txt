@@ -1,4 +1,5 @@
 starlette
+dotenv
 uvicorn
 pydantic
 jsonschema

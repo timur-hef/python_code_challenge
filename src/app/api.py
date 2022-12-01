@@ -1,4 +1,6 @@
+import os
 from datetime import datetime, timezone
+from dotenv import load_dotenv
 from http import HTTPStatus
 
 from starlette.applications import Starlette
@@ -8,8 +10,9 @@ from starlette.routing import Route
 
 from apischema.encoder import encode_to_json_response, encode_error_to_json_response
 from apischema.validator import validate_todo_entry
+from db import Database
 from entities import TodoEntry
-from persistence.mapper.memory import MemoryTodoEntryMapper
+from persistence.mapper.memory import MemoryTodoEntryMapper, DatabaseTodoEntryMapper
 from persistence.repository import TodoEntryRepository
 
 from usecases import get_todo_entry, create_todo_entry, UseCaseError, NotFoundError
@@ -41,7 +44,7 @@ async def get_todo(request: Request) -> Response:
     try:
         identifier = request.path_params["id"]  # TODO: add validation
 
-        mapper = MemoryTodoEntryMapper(storage=_MAPPER_IN_MEMORY_STORAGE)
+        mapper = DatabaseTodoEntryMapper()
         repository = TodoEntryRepository(mapper=mapper)
 
         entity = await get_todo_entry(identifier=identifier, repository=repository)
@@ -79,7 +82,7 @@ async def create_new_todo_entry(request: Request) -> Response:
             media_type="application/json",
         )
 
-    mapper = MemoryTodoEntryMapper(storage=_MAPPER_IN_MEMORY_STORAGE)
+    mapper = DatabaseTodoEntryMapper()
     repository = TodoEntryRepository(mapper=mapper)
 
     try:
@@ -97,7 +100,8 @@ async def create_new_todo_entry(request: Request) -> Response:
         content=content, status_code=HTTPStatus.CREATED, media_type="application/json"
     )
 
-
+load_dotenv()
+Database.initialize(os.getenv("DATABASE_URI"))
 app = Starlette(
     debug=True,
     routes=[
